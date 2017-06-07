@@ -1,0 +1,4 @@
+# MagicMirror
+
+**TODO: Add description**
+
