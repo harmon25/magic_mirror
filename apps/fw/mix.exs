@@ -1,7 +1,7 @@
 defmodule Fw.Mixfile do
   use Mix.Project
 
-  @target System.get_env("MIX_TARGET") || "host"
+  @target "rpi2_kiosk"
 
   Mix.shell.info([:green, """
   Mix environment
@@ -63,7 +63,7 @@ defmodule Fw.Mixfile do
   def deps("host"), do: []
   def deps(target) do
     [{:nerves_runtime, "~> 0.1.0"},
-     {:"nerves_system_#{target}", "~> 0.10", runtime: false}]
+     {:"nerves_system_#{target}", git: "https://github.com/harmon25/nerves_system_rpi2_kiosk.git", runtime: false}]
   end
 
   # We do not invoke the Nerves Env when running on the Host
