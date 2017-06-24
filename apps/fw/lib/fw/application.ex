@@ -2,7 +2,7 @@ defmodule Fw.Application do
   use Application
 
   @interface :wlan0
-  @kernel_modules Mix.Project.config[:kernel_modules] || []
+  @kernel_modules ["8192cu"]
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
@@ -13,9 +13,14 @@ defmodule Fw.Application do
     children = [
       worker(Task, [fn -> init_kernel_modules() end], restart: :transient, id: Nerves.Init.KernelModules),
       worker(Task, [fn -> init_udevd() end], restart: :transient, id: Nerves.Init.Udevd),
-      worker(Task, [fn -> init_wifi() end], restart: :transient, id: Nerves.Init.wifi)
+      worker(Task, [fn -> init_wifi() end], restart: :transient, id: Nerves.Init.Wifi)
       worker(Task, [fn -> Nerves.Networking.setup :eth0, [mode: "dhcp"] end], restart: :transient)
     ]
+    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
+    # for other strategies and supported options
+    opts = [strategy: :one_for_one, name: Fw.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
 
   def init_udevd() do
     System.cmd("/sbin/udevd", ["--daemon"]))
@@ -25,13 +30,9 @@ defmodule Fw.Application do
     Enum.each(@kernel_modules, & System.cmd("modprobe", [&1]))
   end
 
-  def init_network() do
+  def init_wifi() do
     opts = Application.get_env(:fw, @interface)
     Nerves.InterimWiFi.setup(@interface, opts)
   end
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Fw.Supervisor]
-    Supervisor.start_link(children, opts)
-  end
+
 end
