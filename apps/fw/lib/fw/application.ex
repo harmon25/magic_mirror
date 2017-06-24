@@ -2,7 +2,7 @@ defmodule Fw.Application do
   use Application
 
   @interface :wlan0
-  @kernel_modules ["8192cu"]
+  @kernel_modules ["8192cu", "usbtouchscreen"]
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
@@ -22,8 +22,14 @@ defmodule Fw.Application do
     Supervisor.start_link(children, opts)
   end
 
-  def init_udevd() do
-    System.cmd("/sbin/udevd", ["--daemon"]))
+  def init_udevd() do   
+    [{"/sbin/udevd", ["--daemon"]},
+     {"udevadm", ["trigger", "--type=subsystems", "--action=add"]},
+     {"udevadm", ["trigger", "--type=devices", "--action=add"]},
+     {"udevadm", ["settle", "--timeout=30"]}]
+    |> Enum.each(fn ({cmd, params}) ->
+        System.cmd(cmd, params)
+    end)
   end
 
   def init_kernel_modules() do
