@@ -14,6 +14,7 @@ defmodule Fw.Application do
       worker(Task, [fn -> init_kernel_modules() end], restart: :transient, id: Nerves.Init.KernelModules),
       worker(Task, [fn -> init_udevd() end], restart: :transient, id: Nerves.Init.Udevd),
       worker(Task, [fn -> init_wifi() end], restart: :transient, id: Nerves.Init.Wifi),
+      worker(Task, [fn -> init_qtkiosk() end], restart: :transient, id: Nerves.Init.QtWK)
       # worker(Task, [fn -> Nerves.Networking.setup :eth0, [mode: "dhcp"] end], restart: :transient)
     ]
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
@@ -39,6 +40,11 @@ defmodule Fw.Application do
   def init_wifi() do
     opts = Application.get_env(:fw, @interface)
     Nerves.InterimWiFi.setup(@interface, opts)
+  end
+
+
+  def init_qtkiosk() do
+     System.cmd("qt-webkit-kiosk", ["-c", "/etc/phoenix_kiosk,ini"])
   end
 
 end
