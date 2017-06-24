@@ -5,7 +5,7 @@
 # is restricted to this project.
 use Mix.Config
 
-config :nerves, :fw,
+config :nerves, :firmware,
   rootfs_additions: "config/rootfs-additions"
 
 config :ui, Ui.Endpoint,
