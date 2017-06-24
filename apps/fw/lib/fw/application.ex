@@ -2,7 +2,7 @@ defmodule Fw.Application do
   use Application
 
   @interface :wlan0
-  @kernel_modules ["8192cu", "usbtouchscreen"]
+  @kernel_modules ["8192cu", "hid-multitouch"]
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
@@ -14,7 +14,7 @@ defmodule Fw.Application do
       worker(Task, [fn -> init_kernel_modules() end], restart: :transient, id: Nerves.Init.KernelModules),
       worker(Task, [fn -> init_udevd() end], restart: :transient, id: Nerves.Init.Udevd),
       worker(Task, [fn -> init_wifi() end], restart: :transient, id: Nerves.Init.Wifi),
-      worker(Task, [fn -> Nerves.Networking.setup :eth0, [mode: "dhcp"] end], restart: :transient)
+      # worker(Task, [fn -> Nerves.Networking.setup :eth0, [mode: "dhcp"] end], restart: :transient)
     ]
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options

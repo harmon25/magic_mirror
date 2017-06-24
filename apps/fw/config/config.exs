@@ -5,6 +5,9 @@
 # is restricted to this project.
 use Mix.Config
 
+config :nerves, :fw,
+  rootfs_additions: "config/rootfs-additions"
+
 config :ui, Ui.Endpoint,
   http: [port: 80],
   url: [host: "localhost", port: 80],
@@ -21,6 +24,8 @@ config :fw, :wlan0,
   ssid: System.get_env("NERVES_WIFI_SSID"),
   key_mgmt: :"WPA-PSK",
   psk: System.get_env("NERVES_WIFI_PSK")
+
+
 
 # Customize the firmware. Uncomment all or parts of the following
 # to add files to the root filesystem or modify the firmware
