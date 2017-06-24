@@ -17,6 +17,11 @@ config :ui, Ui.Endpoint,
 
 config :logger, level: :debug
 
+config :fw, :wlan0,
+  ssid: System.get_env("NERVES_WIFI_SSID"),
+  key_mgmt: :"WPA-PSK",
+  psk: System.get_env("NERVES_WIFI_PSK")
+
 # Customize the firmware. Uncomment all or parts of the following
 # to add files to the root filesystem or modify the firmware
 # archive.
