@@ -53,9 +53,9 @@ defmodule Fw.Mixfile do
   # Type "mix help deps" for more examples and options
   def deps do
     [{:nerves, "~> 0.5.0", runtime: false, },
-     {:ui, in_umbrella: true},
      {:nerves_networking, "~> 0.6.0"}, 
-     {:nerves_interim_wifi, "~> 0.2.0"}] ++
+     {:nerves_interim_wifi, "~> 0.2.0"},
+     {:ui, in_umbrella: true}] ++
     deps(@target)
   end
 

@@ -11,10 +11,11 @@ defmodule Fw.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
+      supervisor(Phoenix.PubSub.PG2, [Nerves.PubSub, [poolsize: 1]]),
       worker(Task, [fn -> init_kernel_modules() end], restart: :transient, id: Nerves.Init.KernelModules),
       worker(Task, [fn -> init_udevd() end], restart: :transient, id: Nerves.Init.Udevd),
       worker(Task, [fn -> init_wifi() end], restart: :transient, id: Nerves.Init.Wifi),
-      #worker(Task, [fn -> init_qtkiosk() end], restart: :transient, id: Nerves.Init.QtWK)
+      worker(Task, [fn -> init_qtkiosk() end], restart: :transient, id: Nerves.Init.QtWK)
       # worker(Task, [fn -> Nerves.Networking.setup :eth0, [mode: "dhcp"] end], restart: :transient)
     ]
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
