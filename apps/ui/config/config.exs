@@ -11,7 +11,8 @@ config :ui,
 
 # Configures the endpoint
 config :ui, Ui.Web.Endpoint,
-  url: [host: "localhost"],
+  http: [port: 80],
+  url: [host: "localhost", port: 80],
   secret_key_base: "RuG7k+t7oQSGDyGPmVVS9Mjgfcx7MLAcbr5V/Y0E47awpj58CMTZy+uTy5HxML1g",
   render_errors: [view: Ui.Web.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Ui.PubSub,
