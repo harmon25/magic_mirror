@@ -5,16 +5,11 @@
 # is restricted to this project.
 use Mix.Config
 
-# General application configuration
-config :ui,
-  namespace: Ui
-
 # Configures the endpoint
-config :ui, Ui.Web.Endpoint,
-  http: [port: 80],
-  url: [host: "localhost", port: 80],
-  secret_key_base: "RuG7k+t7oQSGDyGPmVVS9Mjgfcx7MLAcbr5V/Y0E47awpj58CMTZy+uTy5HxML1g",
-  render_errors: [view: Ui.Web.ErrorView, accepts: ~w(html json)],
+config :ui, Ui.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "9w9MI64d1L8mjw+tzTmS3qgJTJqYNGJ1dNfn4S/Zm6BbKAmo2vAyVW7CgfI3CpII",
+  render_errors: [view: Ui.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Ui.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
